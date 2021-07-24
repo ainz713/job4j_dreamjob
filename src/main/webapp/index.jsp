@@ -31,7 +31,7 @@
                 <a class="nav-link" href="<%=request.getContextPath()%>/candidates.jsp">Кандидаты</a>
             </li>
         </ul>
-        <a class="nav-link" href="<%=request.getContextPath()%>/edit.jsp">Добавить вакансию</a>
+        <a class="nav-link" href="<%=request.getContextPath()%>/post/edit.jsp">Добавить вакансию</a>
         <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.jsp">Добавить кандидата</a>
     </div>
     <div class="row">
