@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 
 public class CandidateServlet extends HttpServlet {
@@ -19,12 +20,18 @@ public class CandidateServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        Store.instOf().save(
-                new Candidate(
-                        Integer.valueOf(req.getParameter("id")),
-                        req.getParameter("name")
-                )
-        );
+        if ("delete".equals(req.getParameter("method"))) {
+            Store.instOf().removeCandidate(Integer.parseInt(req.getParameter("id")));
+            File file = new File("c:\\images\\" + req.getParameter("id"));
+            file.delete();
+        } else {
+            Store.instOf().save(
+                    new Candidate(
+                            Integer.parseInt(req.getParameter("id")),
+                            req.getParameter("name")
+                    )
+            );
+        }
         resp.sendRedirect(req.getContextPath() + "/candidates.do");
     }
 }

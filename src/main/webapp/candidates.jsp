@@ -36,6 +36,7 @@
                     <thead>
                     <tr>
                         <th scope="col">Названия</th>
+                        <th scope="col">Фото</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -46,6 +47,22 @@
                                     <i class="fa fa-edit mr-3"></i>
                                 </a>
                                 <c:out value="${candidate.name}"/>
+                            <td>
+                                <img src="<c:url value='/download?name=${candidate.id}'/>" width="100px"
+                                     height="100px" alt="Фото кандидата"/>
+                            </td>
+                            <td>
+                                <a href="<c:url value='/candidate/photoUpload.jsp?id=${candidate.id}'/>"
+                                   class="btn btn-default btn-sm" role="button">
+                                    Добавить фото
+                                </a>
+                                <br><br>
+                                <form action="<c:url value='/candidates.do?id=${candidate.id}&method=delete'/>"
+                                      method="post">
+                                    <button type="submit" class="btn btn-default btn-sm">
+                                        Удалить кандидата
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     </c:forEach>
