@@ -14,9 +14,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PsqlStore implements Store {
 
+    private static final Logger LOG = LoggerFactory.getLogger(PsqlStore.class.getName());
     private final BasicDataSource pool = new BasicDataSource();
 
     private PsqlStore() {
@@ -62,7 +65,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Error", e);
         }
         return posts;
     }
@@ -79,7 +82,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Error", e);
         }
         return candidates;
     }
@@ -110,7 +113,7 @@ public class PsqlStore implements Store {
             statement.setInt(1, id);
             statement.execute();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Error", e);
         }
     }
 
@@ -122,7 +125,7 @@ public class PsqlStore implements Store {
             statement.setInt(1, id);
             statement.execute();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Error", e);
         }
     }
 
@@ -138,7 +141,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Error", e);
         }
         return post;
     }
@@ -155,7 +158,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Error", e);
         }
         return candidate;
     }
@@ -168,7 +171,7 @@ public class PsqlStore implements Store {
             statement.setInt(2, post.getId());
             statement.execute();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Error", e);
         }
     }
 
@@ -179,49 +182,47 @@ public class PsqlStore implements Store {
             statement.setString(1, candidate.getName());
             statement.setInt(2, candidate.getId());
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("Error", e);
         }
     }
 
     @Override
     public Post findById(int id) {
-        Post post = new Post();
         try (Connection cn = pool.getConnection();
                 PreparedStatement statement =
                      cn.prepareStatement("select * from posts where id = ?")) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    post = (new Post(
+                    return new Post(
                             resultSet.getInt("id"),
                             resultSet.getString("name")
-                    ));
+                    );
                 }
             }
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            LOG.error("Error", throwables);
         }
-        return post.getId() > 0 ? post : null;
+        return null;
     }
 
     @Override
     public Candidate findCanById(int id) {
-        Candidate post = new Candidate();
         try (Connection cn = pool.getConnection();
              PreparedStatement statement =
                      cn.prepareStatement("select * from candidates where id = ?")) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    post = (new Candidate(
+                    return new Candidate(
                             resultSet.getInt("id"),
                             resultSet.getString("name")
-                    ));
+                    );
                 }
             }
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            LOG.error("Error", throwables);
         }
-        return post.getId() > 0 ? post : null;
+        return null;
     }
 }

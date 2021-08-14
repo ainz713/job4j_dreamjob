@@ -10,8 +10,6 @@ public class PsqlMain {
         store.save(new Candidate(0, "Can1"));
         store.save(new Candidate(1, "Can2"));
         store.save(new Candidate(0, "Can3"));
-        store.removePost(13);
-        store.removeCandidate(1);
         for (Post post : store.findAllPosts()) {
             System.out.println(post.getId() + " " + post.getName());
         }
