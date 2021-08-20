@@ -65,7 +65,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            LOG.error("Error", e);
+            LOG.error("Записей не найдено", e);
         }
         return posts;
     }
@@ -82,7 +82,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            LOG.error("Error", e);
+            LOG.error("Кандидатов не найдено", e);
         }
         return candidates;
     }
@@ -113,7 +113,7 @@ public class PsqlStore implements Store {
             statement.setInt(1, id);
             statement.execute();
         } catch (Exception e) {
-            LOG.error("Error", e);
+            LOG.error("Ошибка удаления записи", e);
         }
     }
 
@@ -125,7 +125,7 @@ public class PsqlStore implements Store {
             statement.setInt(1, id);
             statement.execute();
         } catch (Exception e) {
-            LOG.error("Error", e);
+            LOG.error("Ошибка удаления кандидата", e);
         }
     }
 
@@ -141,7 +141,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            LOG.error("Error", e);
+            LOG.error("Ошибка создания записи", e);
         }
         return post;
     }
@@ -158,7 +158,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            LOG.error("Error", e);
+            LOG.error("Ошибка создания кандидата", e);
         }
         return candidate;
     }
@@ -171,7 +171,7 @@ public class PsqlStore implements Store {
             statement.setInt(2, post.getId());
             statement.execute();
         } catch (Exception e) {
-            LOG.error("Error", e);
+            LOG.error("Ошибка обновления записи", e);
         }
     }
 
@@ -182,7 +182,7 @@ public class PsqlStore implements Store {
             statement.setString(1, candidate.getName());
             statement.setInt(2, candidate.getId());
         } catch (Exception e) {
-            LOG.error("Error", e);
+            LOG.error("Ошибка обновления кандидата", e);
         }
     }
 
@@ -201,7 +201,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (SQLException throwables) {
-            LOG.error("Error", throwables);
+            LOG.error("Запись не найдена", throwables);
         }
         return null;
     }
@@ -221,7 +221,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (SQLException throwables) {
-            LOG.error("Error", throwables);
+            LOG.error("Кандидат не найден", throwables);
         }
         return null;
     }
