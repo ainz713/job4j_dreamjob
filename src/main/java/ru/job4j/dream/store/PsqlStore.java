@@ -3,6 +3,7 @@ package ru.job4j.dream.store;
 import org.apache.commons.dbcp2.BasicDataSource;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
+import ru.job4j.dream.model.User;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -88,6 +89,24 @@ public class PsqlStore implements Store {
     }
 
     @Override
+    public Collection<User> findAllUsers() {
+        List<User> users = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM users")
+        ) {
+            try (ResultSet it = ps.executeQuery()) {
+                while (it.next()) {
+                    users.add(new User(it.getInt("id"), it.getString("name"),
+                            it.getString("email"), it.getString("password")));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Пользователей не найдено", e);
+        }
+        return users;
+    }
+
+    @Override
     public void save(Post post) {
         if (post.getId() == 0) {
             create(post);
@@ -102,6 +121,15 @@ public class PsqlStore implements Store {
             create(candidate);
         } else {
             update(candidate);
+        }
+    }
+
+    @Override
+    public void save(User user) {
+        if (user.getId() == 0) {
+            create(user);
+        } else {
+            update(user);
         }
     }
 
@@ -126,6 +154,18 @@ public class PsqlStore implements Store {
             statement.execute();
         } catch (Exception e) {
             LOG.error("Ошибка удаления кандидата", e);
+        }
+    }
+
+    @Override
+    public void removeUser(int id) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement statement =
+                     cn.prepareStatement("delete from users where id = ?", PreparedStatement.RETURN_GENERATED_KEYS)) {
+            statement.setInt(1, id);
+            statement.execute();
+        } catch (Exception e) {
+            LOG.error("Ошибка удаления пользователя", e);
         }
     }
 
@@ -163,6 +203,26 @@ public class PsqlStore implements Store {
         return candidate;
     }
 
+    private User create(User user) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement("INSERT INTO users(name, email, password) VALUES (?, ?, ?)",
+                     PreparedStatement.RETURN_GENERATED_KEYS)
+        ) {
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getPassword());
+            ps.execute();
+            try (ResultSet id = ps.getGeneratedKeys()) {
+                if (id.next()) {
+                    user.setId(id.getInt(1));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Ошибка создания пользователя", e);
+        }
+        return user;
+    }
+
     private void update(Post post) {
         try (Connection cn = pool.getConnection();
                 PreparedStatement statement =
@@ -175,12 +235,27 @@ public class PsqlStore implements Store {
         }
     }
 
+    private void update(User user) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement statement =
+                     cn.prepareStatement("update users set name = ?, email = ?, password = ? where id = ?")) {
+            statement.setString(1, user.getName());
+            statement.setString(2, user.getEmail());
+            statement.setString(3, user.getPassword());
+            statement.setInt(4, user.getId());
+            statement.execute();
+        } catch (Exception e) {
+            LOG.error("Ошибка обновления кандидата", e);
+        }
+    }
+
     private void update(Candidate candidate) {
         try (Connection cn = pool.getConnection();
              PreparedStatement statement =
                      cn.prepareStatement("update candidates set name = ? where id = ?")) {
             statement.setString(1, candidate.getName());
             statement.setInt(2, candidate.getId());
+            statement.execute();
         } catch (Exception e) {
             LOG.error("Ошибка обновления кандидата", e);
         }
@@ -217,6 +292,50 @@ public class PsqlStore implements Store {
                     return new Candidate(
                             resultSet.getInt("id"),
                             resultSet.getString("name")
+                    );
+                }
+            }
+        } catch (SQLException throwables) {
+            LOG.error("Кандидат не найден", throwables);
+        }
+        return null;
+    }
+
+    @Override
+    public User findUserById(int id) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement statement =
+                     cn.prepareStatement("select * from users where id = ?")) {
+            statement.setInt(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return new User(
+                            resultSet.getInt("id"),
+                            resultSet.getString("name"),
+                            resultSet.getString("email"),
+                            resultSet.getString("password")
+                    );
+                }
+            }
+        } catch (SQLException throwables) {
+            LOG.error("Кандидат не найден", throwables);
+        }
+        return null;
+    }
+
+    @Override
+    public User findUserByEmail(String email) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement statement =
+                     cn.prepareStatement("select * from users where email = ?")) {
+            statement.setString(1, email);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return new User(
+                            resultSet.getInt("id"),
+                            resultSet.getString("name"),
+                            resultSet.getString("email"),
+                            resultSet.getString("password")
                     );
                 }
             }
