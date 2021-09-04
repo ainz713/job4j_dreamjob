@@ -18,7 +18,7 @@ public class CandidateServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.setCharacterEncoding("UTF-8");
         if ("delete".equals(req.getParameter("method"))) {
             PsqlStore.instOf().removeCandidate(Integer.parseInt(req.getParameter("id")));
