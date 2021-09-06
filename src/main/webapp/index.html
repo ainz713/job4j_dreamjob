@@ -7,6 +7,31 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        function validate() {
+            var name = $('#exampleInputName1').val();
+            var surname = $('#exampleInputSurname1').val();
+            var gender = $('#exampleInputGender1').val();
+            var description = $("#exampleFormControlTextarea1").val();
+            var error = "";
+            if (name === "") {
+                error += "Введите имя\n";
+            }
+            if (surname === "") {
+                error += "Введите фамилию\n";
+            }
+            if (gender === "") {
+                error += "Введите пол\n";
+            }
+            if (description === "") {
+                error += "Введите описание\n";
+            }
+            if (error !== "") {
+                alert(error);
+            }
+            return false;
+        }
+    </script>
 </head>
 <body>
 
@@ -17,17 +42,17 @@
 
 <form>
     <div class="form-group">
-        <label for="exampleInputEmail1">Имя</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        <label for="exampleInputName1">Имя</label>
+        <input type="email" class="form-control" id="exampleInputName1" aria-describedby="emailHelp">
 <!--        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
     </div>
     <div class="form-group">
-        <label for="exampleInputPassword1">Фамилия</label>
-        <input type="password" class="form-control" id="exampleInputPassword1">
+        <label for="exampleInputSurname1">Фамилия</label>
+        <input type="email" class="form-control" id="exampleInputSurname1">
     </div>
     <div class="form-group">
-        <label for="exampleInputPassword1">Пол</label>
-        <input type="password" class="form-control" id="exampleInputPassword2">
+        <label for="exampleInputGender1">Пол</label>
+        <input type="email" class="form-control" id="exampleInputGender1">
     </div>
     <div class="form-group">
         <label for="exampleFormControlTextarea1">Описание</label>
@@ -38,7 +63,7 @@
 <!--        <label class="form-check-label" for="exampleCheck1">Check me out</label>-->
 <!--    </div>-->
 <!--    <button type="submit" class="btn btn-primary">Submit</button>-->
-
+    <button type="button" class="btn btn-default" onclick="return validate();">Submit</button>
     <table class="table">
         <thead>
         <tr>
