@@ -31,6 +31,22 @@
             }
             return false;
         }
+        function addRow() {
+            //получаем значение поля usr
+            const name = $('#exampleInputName1').val();
+            const surname = $('#exampleInputSurname1').val();
+            const gender = $('#exampleInputGender1').val();
+            const description = $('#exampleFormControlTextarea1').val();
+
+            //получаем ссылку на последний элемент в таблице.
+            //и после него добавляем html
+            $('#table tr:last').after('<tr>'
+                + '<td>' + name +'</td>'
+                + '<td>' + surname +'</td>'
+                + '<td>' + gender +'</td>'
+                + '<td>' + description +'</td>'
+                + '</tr>');
+        }
     </script>
 </head>
 <body>
@@ -64,26 +80,19 @@
 <!--    </div>-->
 <!--    <button type="submit" class="btn btn-primary">Submit</button>-->
     <button type="button" class="btn btn-default" onclick="return validate();">Submit</button>
-    <table class="table">
+    <table class="table" id="table">
         <thead>
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th scope="col">Name</th>
+            <th scope="col">Surname</th>
+            <th scope="col">Gender</th>
+            <th scope="col">Description</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <th scope="row">1</th>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-        </tr>
+
         </tbody>
+        <button type="button" class="btn btn-default" onclick="addRow()">Add row</button>
     </table>
 </form>
 
