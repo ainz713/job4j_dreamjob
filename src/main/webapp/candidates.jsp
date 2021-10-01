@@ -58,8 +58,11 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th scope="col">Названия</th>
-                        <th scope="col">Фото</th>
+                        <th scope="col" style="width:20%">Имя</th>
+                        <th scope="col" style="width:30%">Фото</th>
+                        <th scope="col" style="width:30%">Город</th>
+                        <th scope="col" style="width:5%"></th>
+                        <th scope="col" style="width:5%"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -73,6 +76,13 @@
                             <td>
                                 <img src="<c:url value='/download?name=${candidate.id}'/>" width="100px"
                                      height="100px" alt="Фото кандидата"/>
+                            </td>
+                            <td>
+                                    <c:forEach items="${cities}" var="city">
+                                    <c:if test="${candidate.cityId eq city.id}">
+                                        <c:out value="${city.name}"/>
+                                    </c:if>
+                                    </c:forEach>
                             </td>
                             <td>
                                 <a href="<c:url value='/candidate/photoUpload.jsp?id=${candidate.id}'/>"
