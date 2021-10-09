@@ -32,14 +32,11 @@
             return false;
         }
         function addRow() {
-            //получаем значение поля usr
             const name = $('#exampleInputName1').val();
             const surname = $('#exampleInputSurname1').val();
             const gender = $('#exampleInputGender1').val();
             const description = $('#exampleFormControlTextarea1').val();
 
-            //получаем ссылку на последний элемент в таблице.
-            //и после него добавляем html
             $('#table tr:last').after('<tr>'
                 + '<td>' + name +'</td>'
                 + '<td>' + surname +'</td>'
@@ -60,7 +57,6 @@
     <div class="form-group">
         <label for="exampleInputName1">Имя</label>
         <input type="email" class="form-control" id="exampleInputName1" aria-describedby="emailHelp">
-<!--        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
     </div>
     <div class="form-group">
         <label for="exampleInputSurname1">Фамилия</label>
@@ -74,11 +70,7 @@
         <label for="exampleFormControlTextarea1">Описание</label>
         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
     </div>
-<!--    <div class="form-group form-check">-->
-<!--        <input type="checkbox" class="form-check-input" id="exampleCheck1">-->
-<!--        <label class="form-check-label" for="exampleCheck1">Check me out</label>-->
-<!--    </div>-->
-<!--    <button type="submit" class="btn btn-primary">Submit</button>-->
+
     <button type="button" class="btn btn-default" onclick="return validate();">Submit</button>
     <table class="table" id="table">
         <thead>

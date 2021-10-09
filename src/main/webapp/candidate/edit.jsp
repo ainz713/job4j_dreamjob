@@ -46,24 +46,6 @@
                 alert(err);
             })
         });
-        // to chto bilo
-        // $(function() {
-        //     $.ajax({
-        //         type: 'GET',
-        //         url: 'http://localhost:8080/dreamjob/cities',
-        //     }).done(function(data) {
-        //         var city = document.querySelector('#city');
-        //         var mas = JSON.parse(data);
-        //         $.each(mas, function (i, el) {
-        //             const optionElement = document.createElement('option');
-        //             optionElement.value = el.id;
-        //             optionElement.innerText = el.name;
-        //             city.append(optionElement);
-        //         });
-        //     }).fail(function(err){
-        //         alert(err);
-        //     })
-        // });
         </script>
     <title>Работа мечты</title>
 </head>
@@ -117,12 +99,6 @@
                         <label for="city" class="col-form-label">Город</label>
                         <select class="form-control" id="city" name="city_id"></select>
                     </div>
-<%--                    <div class="form-group col-4">--%>
-<%--                        <label for="city" class="col-form-label">Город</label>--%>
-<%--                        <select class="form-control" id="city" name="city_id"></select>--%>
-<%--                    </div>--%>
-
-<%--                    <button type="submit" class="btn btn-primary" onclick="return validate()">Сохранить</button>--%>
                     <div class="form-group col-2" style="padding-top:38px">
                         <button type="submit" class="btn btn-primary" onclick="return validate()">Сохранить</button>
                     </div>

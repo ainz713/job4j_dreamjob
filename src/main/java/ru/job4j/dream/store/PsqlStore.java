@@ -174,7 +174,8 @@ public class PsqlStore implements Store {
     public void removeCandidate(int id) {
         try (Connection cn = pool.getConnection();
              PreparedStatement statement =
-                     cn.prepareStatement("delete from candidates where id = ?", PreparedStatement.RETURN_GENERATED_KEYS)) {
+                     cn.prepareStatement("delete from candidates where id = ?",
+                             PreparedStatement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, id);
             statement.execute();
         } catch (Exception e) {
@@ -186,7 +187,8 @@ public class PsqlStore implements Store {
     public void removeUser(int id) {
         try (Connection cn = pool.getConnection();
              PreparedStatement statement =
-                     cn.prepareStatement("delete from users where id = ?", PreparedStatement.RETURN_GENERATED_KEYS)) {
+                     cn.prepareStatement("delete from users where id = ?",
+                             PreparedStatement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, id);
             statement.execute();
         } catch (Exception e) {
@@ -196,7 +198,8 @@ public class PsqlStore implements Store {
 
     private Post create(Post post) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("INSERT INTO post(name) VALUES (?)", PreparedStatement.RETURN_GENERATED_KEYS)
+             PreparedStatement ps =  cn.prepareStatement("INSERT INTO post(name) VALUES (?)",
+                     PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, post.getName());
             ps.execute();
@@ -213,7 +216,8 @@ public class PsqlStore implements Store {
 
     private Candidate create(Candidate candidate) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("INSERT INTO candidates(name, city_id) VALUES (?, ?)", PreparedStatement.RETURN_GENERATED_KEYS)
+             PreparedStatement ps =  cn.prepareStatement("INSERT INTO candidates(name, city_id) VALUES (?, ?)",
+                     PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, candidate.getName());
             ps.setInt(2, candidate.getCityId());
@@ -231,7 +235,8 @@ public class PsqlStore implements Store {
 
     private User create(User user) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("INSERT INTO users(name, email, password) VALUES (?, ?, ?)",
+             PreparedStatement ps =  cn.prepareStatement("INSERT INTO users(name, email, password) "
+                             + "VALUES (?, ?, ?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, user.getName());
@@ -377,7 +382,8 @@ public class PsqlStore implements Store {
         List<Post> lastDayPosts = new ArrayList<>();
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement(
-                     "SELECT * FROM post WHERE created BETWEEN current_timestamp - interval '1 day' AND current_timestamp")) {
+                     "SELECT * FROM post WHERE created "
+                             + "BETWEEN current_timestamp - interval '1 day' AND current_timestamp")) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
                     lastDayPosts.add(new Post(it.getInt("id"),
@@ -394,7 +400,8 @@ public class PsqlStore implements Store {
     public Collection<Candidate> findLastDayCandidates() {
         List<Candidate> candidates = new ArrayList<>();
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM Candidate WHERE registered BETWEEN current_timestamp - interval '1 day' AND current_timestamp")
+             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM Candidate "
+                     + "WHERE registered BETWEEN current_timestamp - interval '1 day' AND current_timestamp")
         ) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {

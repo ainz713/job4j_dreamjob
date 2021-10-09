@@ -11,7 +11,8 @@ public class AuthFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest sreq, ServletResponse sresp, FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest sreq, ServletResponse sresp, FilterChain chain)
+            throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) sreq;
         HttpServletResponse resp = (HttpServletResponse) sresp;
         String uri = req.getRequestURI();
